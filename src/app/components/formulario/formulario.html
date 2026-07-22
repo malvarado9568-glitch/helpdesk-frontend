@@ -1,58 +1,70 @@
-<h2>Registrar Incidente</h2>
+<h2>
+  {{ modoEdicion ? 'Editar Ticket' : 'Registrar Ticket' }}
+</h2>
 
 <form (ngSubmit)="guardarTicket()">
 
-  <label>Título:</label>
+  <label for="titulo">Título</label>
   <input
     type="text"
-    [(ngModel)]="ticket.titulo"
+    id="titulo"
     name="titulo"
-    required
+    [(ngModel)]="ticket.titulo"
   >
 
-  <br><br>
-
-  <label>Descripción:</label>
+  <label for="descripcion">Descripción</label>
   <textarea
-    [(ngModel)]="ticket.descripcion"
+    id="descripcion"
     name="descripcion"
-    required>
-  </textarea>
+    [(ngModel)]="ticket.descripcion"
+  ></textarea>
 
-  <br><br>
-
-  <label>Categoría:</label>
+  <label for="categoria">Categoría</label>
   <select
-    [(ngModel)]="ticket.categoria"
+    id="categoria"
     name="categoria"
-    required>
-
+    [(ngModel)]="ticket.categoria"
+  >
     <option value="">Seleccione una categoría</option>
     <option value="Hardware">Hardware</option>
     <option value="Software">Software</option>
-    <option value="Red">Red</option>
-
+    <option value="Redes">Redes</option>
+    <option value="Soporte">Soporte</option>
   </select>
 
-  <br><br>
-
-  <label>Prioridad:</label>
+  <label for="prioridad">Prioridad</label>
   <select
-    [(ngModel)]="ticket.prioridad"
+    id="prioridad"
     name="prioridad"
-    required>
-
+    [(ngModel)]="ticket.prioridad"
+  >
     <option value="">Seleccione una prioridad</option>
-    <option value="Alta">Alta</option>
-    <option value="Media">Media</option>
     <option value="Baja">Baja</option>
-
+    <option value="Media">Media</option>
+    <option value="Alta">Alta</option>
   </select>
 
-  <br><br>
+  <label for="estado">Estado</label>
+  <select
+    id="estado"
+    name="estado"
+    [(ngModel)]="ticket.estado"
+  >
+    <option value="Abierto">Abierto</option>
+    <option value="En proceso">En proceso</option>
+    <option value="Cerrado">Cerrado</option>
+  </select>
 
   <button type="submit">
-    Guardar Ticket
+    {{ modoEdicion ? 'Actualizar Ticket' : 'Guardar Ticket' }}
+  </button>
+
+  <button
+    *ngIf="modoEdicion"
+    type="button"
+    (click)="cancelarEdicion()"
+  >
+    Cancelar
   </button>
 
 </form>

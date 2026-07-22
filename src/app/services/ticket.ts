@@ -9,9 +9,13 @@ export class TicketService {
 
   private apiUrl = 'http://localhost:3000/tickets';
 
+  // Avisar que la tabla debe recargarse.
   private actualizarListaSubject = new Subject<void>();
-
   actualizarLista$ = this.actualizarListaSubject.asObservable();
+
+  // Enviar un ticket desde la lista hacia el formulario.
+  private ticketSeleccionadoSubject = new Subject<any>();
+  ticketSeleccionado$ = this.ticketSeleccionadoSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -33,5 +37,9 @@ export class TicketService {
 
   notificarActualizacion(): void {
     this.actualizarListaSubject.next();
+  }
+
+  seleccionarTicket(ticket: any): void {
+    this.ticketSeleccionadoSubject.next(ticket);
   }
 }

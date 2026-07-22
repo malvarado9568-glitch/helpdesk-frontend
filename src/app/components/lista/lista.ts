@@ -24,18 +24,14 @@ export class Lista implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
-    // Cargar los tickets al abrir la página.
     this.cargarTickets();
 
-    // Actualizar la lista cuando se guarde un ticket nuevo.
     this.ticketService.actualizarLista$.subscribe(() => {
       this.cargarTickets();
     });
   }
 
   cargarTickets(): void {
-
     this.ticketService.obtenerTickets().subscribe({
       next: (data) => {
         console.log('Tickets recibidos:', data);
@@ -49,8 +45,17 @@ export class Lista implements OnInit {
     });
   }
 
-  eliminarTicket(id: number): void {
+  editarTicket(ticket: any): void {
+    this.ticketService.seleccionarTicket(ticket);
 
+    // Llevar la pantalla hacia el formulario.
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth'
+    });
+  }
+
+  eliminarTicket(id: number): void {
     const confirmar = confirm(
       '¿Está segura de que desea eliminar este ticket?'
     );
@@ -62,13 +67,10 @@ export class Lista implements OnInit {
     this.ticketService.eliminarTicket(id).subscribe({
       next: () => {
         console.log('Ticket eliminado correctamente');
-
-        // Volver a cargar la tabla.
         this.cargarTickets();
       },
       error: (error) => {
         console.error('Error al eliminar el ticket:', error);
-
         alert('No se pudo eliminar el ticket.');
       }
     });
