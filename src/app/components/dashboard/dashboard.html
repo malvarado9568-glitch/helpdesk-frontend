@@ -1,1 +1,51 @@
-<p>dashboard works!</p>
+<div class="container mt-4">
+
+  <h2 class="text-center mb-4">
+    📊 Panel de Control
+  </h2>
+
+  <div class="row">
+
+    <!-- Total Tickets -->
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="card bg-primary text-white shadow border-0 h-100">
+        <div class="card-body text-center">
+          <h5 class="card-title">Total Tickets</h5>
+          <h1 class="display-5 fw-bold">{{ totalTickets }}</h1>
+        </div>
+      </div>
+    </div>
+
+    <!-- Abiertos -->
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="card bg-success text-white shadow border-0 h-100">
+        <div class="card-body text-center">
+          <h5 class="card-title">Abiertos</h5>
+          <h1 class="display-5 fw-bold">{{ ticketsAbiertos }}</h1>
+        </div>
+      </div>
+    </div>
+
+    <!-- En Proceso -->
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="card bg-warning text-dark shadow border-0 h-100">
+        <div class="card-body text-center">
+          <h5 class="card-title">En Proceso</h5>
+          <h1 class="display-5 fw-bold">{{ ticketsEnProceso }}</h1>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cerrados -->
+    <div class="col-lg-3 col-md-6 mb-4">
+      <div class="card bg-danger text-white shadow border-0 h-100">
+        <div class="card-body text-center">
+          <h5 class="card-title">Cerrados</h5>
+          <h1 class="display-5 fw-bold">{{ ticketsCerrados }}</h1>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

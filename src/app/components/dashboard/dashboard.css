@@ -1,0 +1,36 @@
+.card {
+    border-radius: 15px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 35px rgba(0,0,0,.25);
+}
+
+.card-body h1{
+    font-size: 52px;
+    font-weight: bold;
+}
+
+.card-title{
+    font-size:20px;
+    font-weight:bold;
+}
+
+.bg-primary{
+    background:linear-gradient(135deg,#0d6efd,#4f9dff)!important;
+}
+
+.bg-success{
+    background:linear-gradient(135deg,#198754,#39b86d)!important;
+}
+
+.bg-warning{
+    background:linear-gradient(135deg,#ffc107,#ffdb58)!important;
+}
+
+.bg-danger{
+    background:linear-gradient(135deg,#dc3545,#ff5d6c)!important;
+}

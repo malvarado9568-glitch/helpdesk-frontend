@@ -1,0 +1,21 @@
+.card {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.table th {
+  text-align: center;
+}
+
+.table td {
+  vertical-align: middle;
+}
+
+.badge {
+  font-size: .9rem;
+  padding: 8px 12px;
+}
+
+.btn {
+  border-radius: 8px;
+}
