@@ -1,8 +1,58 @@
 <app-navbar></app-navbar>
 
-<main class="container">
+<div class="container mt-4">
 
-  <h1>Sistema Help Desk</h1>
+  <!-- Bienvenida -->
+
+  <div class="card shadow-lg border-0 mb-4 bienvenida">
+
+    <div class="card-body p-5">
+
+      <div class="row align-items-center">
+
+        <div class="col-lg-8">
+
+          <h1 class="display-5 fw-bold text-primary">
+            👋 Bienvenido al Sistema Help Desk
+          </h1>
+
+          <p class="lead text-secondary mt-3">
+            Gestiona incidencias, registra tickets y realiza el seguimiento de todas las solicitudes de soporte técnico de manera rápida, organizada y eficiente.
+          </p>
+
+          <div class="mt-4">
+
+            <span class="badge bg-primary me-2 p-2">
+              🎫 Gestión de Tickets
+            </span>
+
+            <span class="badge bg-success me-2 p-2">
+              📊 Estadísticas
+            </span>
+
+            <span class="badge bg-warning text-dark p-2">
+              ⚡ Soporte Técnico
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="col-lg-4 text-center">
+
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/2491/2491902.png"
+            class="img-fluid"
+            style="max-width:220px;"
+            alt="Help Desk">
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
 
   <app-dashboard></app-dashboard>
 
@@ -10,4 +60,4 @@
 
   <app-lista></app-lista>
 
-</main>
+</div>

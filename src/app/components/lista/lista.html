@@ -2,10 +2,20 @@
 
   <div class="card shadow border-0">
 
-    <div class="card-header bg-dark text-white">
+    <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center">
+
       <h4 class="mb-0">
         📋 Listado de Tickets
       </h4>
+
+      <input
+        type="text"
+        class="form-control w-25"
+        placeholder="🔍 Buscar ticket..."
+        [(ngModel)]="textoBusqueda"
+        (input)="buscarTickets()"
+      >
+
     </div>
 
     <div class="card-body">
@@ -45,12 +55,13 @@
                 <span
                   class="badge"
                   [ngClass]="{
-                    'bg-danger': ticket.prioridad==='Alta',
-                    'bg-warning text-dark': ticket.prioridad==='Media',
-                    'bg-success': ticket.prioridad==='Baja'
-                  }"
-                >
+                    'bg-danger': ticket.prioridad === 'Alta',
+                    'bg-warning text-dark': ticket.prioridad === 'Media',
+                    'bg-success': ticket.prioridad === 'Baja'
+                  }">
+
                   {{ ticket.prioridad }}
+
                 </span>
 
               </td>
@@ -60,12 +71,13 @@
                 <span
                   class="badge"
                   [ngClass]="{
-                    'bg-success': ticket.estado==='Abierto',
-                    'bg-warning text-dark': ticket.estado==='En proceso',
-                    'bg-secondary': ticket.estado==='Cerrado'
-                  }"
-                >
+                    'bg-success': ticket.estado === 'Abierto',
+                    'bg-warning text-dark': ticket.estado === 'En proceso',
+                    'bg-secondary': ticket.estado === 'Cerrado'
+                  }">
+
                   {{ ticket.estado }}
+
                 </span>
 
               </td>
@@ -74,26 +86,30 @@
 
                 <button
                   class="btn btn-warning btn-sm me-2"
-                  (click)="editarTicket(ticket)"
-                >
+                  (click)="editarTicket(ticket)">
+
                   ✏️ Editar
+
                 </button>
 
                 <button
                   class="btn btn-danger btn-sm"
-                  (click)="eliminarTicket(ticket.id)"
-                >
+                  (click)="eliminarTicket(ticket.id)">
+
                   🗑 Eliminar
+
                 </button>
 
               </td>
 
             </tr>
 
-            <tr *ngIf="tickets.length===0">
+            <tr *ngIf="tickets.length === 0">
 
               <td colspan="7" class="text-center text-muted py-4">
-                No existen tickets registrados.
+
+                No se encontraron tickets.
+
               </td>
 
             </tr>
@@ -105,8 +121,9 @@
       </div>
 
       <div class="mt-3 fw-bold">
-        Total de tickets:
-        {{ tickets.length }}
+
+        Total encontrados: {{ tickets.length }}
+
       </div>
 
     </div>

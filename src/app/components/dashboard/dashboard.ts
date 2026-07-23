@@ -1,4 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 import { TicketService } from '../../services/ticket.service';
 
@@ -11,12 +16,15 @@ import { TicketService } from '../../services/ticket.service';
 })
 export class Dashboard implements OnInit {
 
-  totalTickets = 0;
-  ticketsAbiertos = 0;
-  ticketsEnProceso = 0;
-  ticketsCerrados = 0;
+  totalTickets: number = 0;
+  ticketsAbiertos: number = 0;
+  ticketsEnProceso: number = 0;
+  ticketsCerrados: number = 0;
 
-  constructor(private ticketService: TicketService) {}
+  constructor(
+    private ticketService: TicketService,
+    private changeDetector: ChangeDetectorRef
+  ) {}
 
   ngOnInit(): void {
     this.cargarEstadisticas();
@@ -28,31 +36,64 @@ export class Dashboard implements OnInit {
 
   cargarEstadisticas(): void {
     this.ticketService.obtenerTickets().subscribe({
+
       next: (tickets: any[]) => {
+        console.log('Tickets recibidos en Dashboard:', tickets);
+
+        if (!Array.isArray(tickets)) {
+          console.error('La respuesta del servidor no es una lista:', tickets);
+          return;
+        }
+
         this.totalTickets = tickets.length;
 
-        this.ticketsAbiertos = tickets.filter(
-          (ticket: any) =>
-            ticket.estado?.toLowerCase().trim() === 'abierto'
-        ).length;
+        this.ticketsAbiertos = tickets.filter((ticket: any) => {
+          const estado = String(ticket.estado || '')
+            .toLowerCase()
+            .trim();
 
-        this.ticketsEnProceso = tickets.filter(
-          (ticket: any) => {
-            const estado = ticket.estado?.toLowerCase().trim();
+          return estado === 'abierto';
+        }).length;
 
-            return estado === 'en proceso' || estado === 'en_proceso';
-          }
-        ).length;
+        this.ticketsEnProceso = tickets.filter((ticket: any) => {
+          const estado = String(ticket.estado || '')
+            .toLowerCase()
+            .trim();
 
-        this.ticketsCerrados = tickets.filter(
-          (ticket: any) =>
-            ticket.estado?.toLowerCase().trim() === 'cerrado'
-        ).length;
+          return (
+            estado === 'en proceso' ||
+            estado === 'en_proceso' ||
+            estado === 'en-proceso'
+          );
+        }).length;
+
+        this.ticketsCerrados = tickets.filter((ticket: any) => {
+          const estado = String(ticket.estado || '')
+            .toLowerCase()
+            .trim();
+
+          return estado === 'cerrado';
+        }).length;
+
+        console.log('Total:', this.totalTickets);
+        console.log('Abiertos:', this.ticketsAbiertos);
+        console.log('En proceso:', this.ticketsEnProceso);
+        console.log('Cerrados:', this.ticketsCerrados);
+
+        this.changeDetector.detectChanges();
       },
 
       error: (error: any) => {
-        console.error('Error al cargar estadísticas:', error);
+        console.error('Error al cargar las estadísticas:', error);
+
+        this.totalTickets = 0;
+        this.ticketsAbiertos = 0;
+        this.ticketsEnProceso = 0;
+        this.ticketsCerrados = 0;
+
+        this.changeDetector.detectChanges();
       }
+
     });
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { TicketService } from '../../services/ticket';
+import { TicketService } from '../../services/ticket.service';
 
 @Component({
   selector: 'app-formulario',
@@ -27,16 +27,21 @@ export class Formulario implements OnInit {
   constructor(private ticketService: TicketService) {}
 
   ngOnInit(): void {
-    this.ticketService.ticketSeleccionado$.subscribe((ticket) => {
+    this.ticketService.ticketSeleccionado$.subscribe((ticket: any) => {
+
+      if (!ticket) {
+        return;
+      }
+
       this.ticketIdEditar = ticket.id;
       this.modoEdicion = true;
       this.mensaje = 'Editando el ticket número ' + ticket.id;
 
       this.ticket = {
-        titulo: ticket.titulo,
-        descripcion: ticket.descripcion,
-        categoria: ticket.categoria,
-        prioridad: ticket.prioridad,
+        titulo: ticket.titulo || '',
+        descripcion: ticket.descripcion || '',
+        categoria: ticket.categoria || '',
+        prioridad: ticket.prioridad || '',
         estado: ticket.estado || 'Abierto'
       };
     });
@@ -44,10 +49,11 @@ export class Formulario implements OnInit {
 
   guardarTicket(): void {
     if (
-      !this.ticket.titulo ||
-      !this.ticket.descripcion ||
+      !this.ticket.titulo.trim() ||
+      !this.ticket.descripcion.trim() ||
       !this.ticket.categoria ||
-      !this.ticket.prioridad
+      !this.ticket.prioridad ||
+      !this.ticket.estado
     ) {
       this.mensaje = 'Por favor, complete todos los campos.';
       return;
@@ -62,15 +68,15 @@ export class Formulario implements OnInit {
 
   crearTicket(): void {
     this.ticketService.crearTicket(this.ticket).subscribe({
-      next: (respuesta) => {
+      next: (respuesta: any) => {
         console.log('Ticket guardado:', respuesta);
 
-        this.ticketService.notificarActualizacion();
         this.limpiarFormulario();
-
         this.mensaje = 'Ticket guardado correctamente.';
+        this.ticketService.notificarActualizacion();
       },
-      error: (error) => {
+
+      error: (error: any) => {
         console.error('Error al guardar el ticket:', error);
         this.mensaje = 'No se pudo guardar el ticket.';
       }
@@ -85,15 +91,15 @@ export class Formulario implements OnInit {
     this.ticketService
       .actualizarTicket(this.ticketIdEditar, this.ticket)
       .subscribe({
-        next: (respuesta) => {
+        next: (respuesta: any) => {
           console.log('Ticket actualizado:', respuesta);
 
-          this.ticketService.notificarActualizacion();
           this.limpiarFormulario();
-
           this.mensaje = 'Ticket actualizado correctamente.';
+          this.ticketService.notificarActualizacion();
         },
-        error: (error) => {
+
+        error: (error: any) => {
           console.error('Error al actualizar el ticket:', error);
           this.mensaje = 'No se pudo actualizar el ticket.';
         }

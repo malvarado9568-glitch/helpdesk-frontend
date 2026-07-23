@@ -5,18 +5,22 @@ import {
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 import { TicketService } from '../../services/ticket';
 
 @Component({
   selector: 'app-lista',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './lista.html',
   styleUrl: './lista.css'
 })
 export class Lista implements OnInit {
 
   tickets: any[] = [];
+  ticketsOriginales: any[] = [];
+
+  textoBusqueda: string = '';
 
   constructor(
     private ticketService: TicketService,
@@ -24,55 +28,100 @@ export class Lista implements OnInit {
   ) {}
 
   ngOnInit(): void {
+
     this.cargarTickets();
 
     this.ticketService.actualizarLista$.subscribe(() => {
       this.cargarTickets();
     });
+
   }
 
   cargarTickets(): void {
-    this.ticketService.obtenerTickets().subscribe({
-      next: (data) => {
-        console.log('Tickets recibidos:', data);
 
+    this.ticketService.obtenerTickets().subscribe({
+
+      next: (data) => {
+
+        this.ticketsOriginales = data;
         this.tickets = data;
+
         this.changeDetector.detectChanges();
+
       },
+
       error: (error) => {
-        console.error('Error al cargar tickets:', error);
+
+        console.error(error);
+
       }
+
     });
+
+  }
+
+  buscarTickets(): void {
+
+    const texto = this.textoBusqueda.toLowerCase().trim();
+
+    if (texto === '') {
+
+      this.tickets = this.ticketsOriginales;
+      return;
+
+    }
+
+    this.tickets = this.ticketsOriginales.filter(ticket =>
+
+      ticket.titulo.toLowerCase().includes(texto) ||
+
+      ticket.descripcion.toLowerCase().includes(texto) ||
+
+      ticket.categoria.toLowerCase().includes(texto) ||
+
+      ticket.estado.toLowerCase().includes(texto) ||
+
+      ticket.prioridad.toLowerCase().includes(texto)
+
+    );
+
   }
 
   editarTicket(ticket: any): void {
+
     this.ticketService.seleccionarTicket(ticket);
 
-    // Llevar la pantalla hacia el formulario.
     window.scrollTo({
       top: 0,
       behavior: 'smooth'
     });
+
   }
 
   eliminarTicket(id: number): void {
+
     const confirmar = confirm(
-      '¿Está segura de que desea eliminar este ticket?'
+      '¿Está segura de eliminar este ticket?'
     );
 
-    if (!confirmar) {
-      return;
-    }
+    if (!confirmar) return;
 
     this.ticketService.eliminarTicket(id).subscribe({
+
       next: () => {
-        console.log('Ticket eliminado correctamente');
+
         this.cargarTickets();
+
       },
+
       error: (error) => {
-        console.error('Error al eliminar el ticket:', error);
-        alert('No se pudo eliminar el ticket.');
+
+        console.error(error);
+
       }
+
     });
+
   }
+
 }

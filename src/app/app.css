@@ -1,0 +1,32 @@
+body{
+    background:#eef3f9;
+    font-family:Arial, Helvetica, sans-serif;
+}
+
+.bienvenida{
+    border-radius:20px;
+    overflow:hidden;
+    background:white;
+}
+
+.bienvenida img{
+    transition:.4s;
+}
+
+.bienvenida img:hover{
+    transform:scale(1.08);
+}
+
+.badge{
+    font-size:15px;
+    border-radius:30px;
+    padding:10px 18px;
+}
+
+.display-5{
+    font-weight:bold;
+}
+
+.lead{
+    font-size:20px;
+}
